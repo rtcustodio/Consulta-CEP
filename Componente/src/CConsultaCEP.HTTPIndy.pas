@@ -18,6 +18,9 @@ type
 
 implementation
 
+uses
+  System.Classes;
+
 { TIndyHttpClient }
 
 constructor TIndyHttpClient.Create;
@@ -40,8 +43,16 @@ begin
 end;
 
 function TIndyHttpClient.Get(const AURL: string): string;
+var
+  ResponseStream: TStringStream;
 begin
-  Result := FHTTP.Get(AURL);
+  ResponseStream := TStringStream.Create('', TEncoding.UTF8);
+  try
+    FHTTP.Get(AURL, ResponseStream);
+    Result :=  ResponseStream.DataString;
+  finally
+    FreeAndNil(ResponseStream);
+  end;
 end;
 
 end.
