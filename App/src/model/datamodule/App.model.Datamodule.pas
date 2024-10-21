@@ -38,6 +38,16 @@ var
   arquivo : TIniFile;
 begin
   arquivo := TIniFile.Create(ExtractFilePath( Application.ExeName ) +'config.ini');
+  if not FileExists( arquivo.ReadString('config','database', '') ) then
+  begin
+    Application.MessageBox(
+      PWideChar('Arquivo de banco de dados não localizado: ' +
+      sLinebreak + arquivo.ReadString('config','database', '') +
+      sLineBreak + ' Verifique o config.ini'),
+      'Atenção', MB_ICONERROR);
+    Application.Terminate;
+  end;
+
   try
     DM.FDConnection.Params.Clear;
     DM.FDConnection.Params.Add('database='+  arquivo.ReadString('config','database', ''));
