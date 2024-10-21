@@ -1,0 +1,116 @@
+﻿unit SysConsultaCEP;
+
+interface
+
+uses
+  System.SysUtils,
+  System.Classes,
+  IdHTTP,
+  System.JSON,
+  Xml.XMLIntf,
+  Xml.XMLDoc;
+
+type
+  TRetornoTipo = (rtJSON, rtXML);
+  TViaCEPResult = procedure(const Logradouro, Bairro, Cidade, Estado: string) of object;
+
+  TSysConsultaCEP = class(TComponent)
+  private
+    FCEP: string;
+    FOnResult: TViaCEPResult;
+    FOnError: TNotifyEvent;
+    FRetornoTipo: TRetornoTipo;
+  protected
+    { Protected declarations }
+  public
+    procedure CEP(const Value: string);
+    procedure SetRetornoTipo(const Value: TRetornoTipo);
+    procedure Consultar;
+  published
+    { Published declarations }
+  end;
+
+procedure Register;
+
+implementation
+
+procedure Register;
+begin
+  RegisterComponents('Samples', [TSysConsultaCEP]);
+end;
+
+{ TComponent1 }
+
+procedure TSysConsultaCEP.Consultar;
+var
+  HTTP: TIdHTTP;
+  Response: string;
+  JSONValue: TJSONValue;
+  XMLDoc: IXMLDocument;
+  Logradouro, Bairro, Cidade, Estado: string;
+begin
+  HTTP := TIdHTTP.Create(nil);
+  try
+    try
+      // Fazendo a requisição HTTP ao ViaCEP, ajustando conforme o tipo de retorno
+      case FRetornoTipo of
+        rtJSON:
+          Response := HTTP.Get('https://viacep.com.br/ws/' + FCEP + '/json/');
+        rtXML:
+          Response := HTTP.Get('https://viacep.com.br/ws/' + FCEP + '/xml/');
+      end;
+
+      // Processar o retorno JSON
+      if FRetornoTipo = rtJSON then
+      begin
+        JSONValue := TJSONObject.ParseJSONValue(Response);
+        if Assigned(JSONValue) then
+        try
+          if Assigned(FOnResult) then
+          begin
+            Logradouro := JSONValue.GetValue<string>('logradouro');
+            Bairro := JSONValue.GetValue<string>('bairro');
+            Cidade := JSONValue.GetValue<string>('localidade');
+            Estado := JSONValue.GetValue<string>('uf');
+            FOnResult(Logradouro, Bairro, Cidade, Estado);
+          end;
+        finally
+          JSONValue.Free;
+        end;
+      end
+      // Processar o retorno XML
+      else if FRetornoTipo = rtXML then
+      begin
+        XMLDoc := TXMLDocument.Create(nil);
+        XMLDoc.LoadFromXML(Response);
+
+        Logradouro := XMLDoc.DocumentElement.ChildNodes['logradouro'].Text;
+        Bairro := XMLDoc.DocumentElement.ChildNodes['bairro'].Text;
+        Cidade := XMLDoc.DocumentElement.ChildNodes['localidade'].Text;
+        Estado := XMLDoc.DocumentElement.ChildNodes['uf'].Text;
+
+        if Assigned(FOnResult) then
+          FOnResult(Logradouro, Bairro, Cidade, Estado);
+      end;
+
+    except
+      on E: Exception do
+        if Assigned(FOnError) then
+          FOnError(Self); // Dispara o evento de erro
+    end;
+  finally
+    HTTP.Free;
+  end;
+end;
+
+procedure TSysConsultaCEP.CEP(const Value: string);
+begin
+  FCEP := Value;
+end;
+
+procedure TSysConsultaCEP.SetRetornoTipo(const Value: TRetornoTipo);
+begin
+  FRetornoTipo := Value;
+end;
+
+end.

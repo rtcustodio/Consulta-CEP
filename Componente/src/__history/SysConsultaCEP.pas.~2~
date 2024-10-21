@@ -1,0 +1,51 @@
+﻿unit SysConsultaCEP;
+
+interface
+
+uses
+  System.SysUtils,
+  System.Classes,
+  IdHTTP,
+  System.JSON,
+  Xml.XMLIntf,
+  Xml.XMLDoc;
+
+type
+  TComponent1 = class(TComponent)
+  private
+    FCEP: string;
+    FOnResult: TViaCEPResult;
+    FOnError: TNotifyEvent;
+    FRetornoTipo: TRetornoTipo;
+    procedure SetCEP(const Value: string);
+    procedure SetRetornoTipo(const Value: TRetornoTipo);
+  protected
+    { Protected declarations }
+  public
+    { Public declarations }
+  published
+    { Published declarations }
+  end;
+
+procedure Register;
+
+implementation
+
+procedure Register;
+begin
+  RegisterComponents('Samples', [TComponent1]);
+end;
+
+{ TComponent1 }
+
+procedure TComponent1.SetCEP(const Value: string);
+begin
+
+end;
+
+procedure TComponent1.SetRetornoTipo(const Value: TRetornoTipo);
+begin
+
+end;
+
+end.

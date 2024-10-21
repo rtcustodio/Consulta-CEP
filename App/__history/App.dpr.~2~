@@ -1,0 +1,16 @@
+program App;
+
+uses
+  Vcl.Forms,
+  App.view.Principal in 'src\view\App.view.Principal.pas' {Form7},
+  App.model.Datamodule in 'src\model\datamodule\App.model.Datamodule.pas' {DM: TDataModule};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TForm7, Form7);
+  Application.CreateForm(TDM, DM);
+  Application.Run;
+end.

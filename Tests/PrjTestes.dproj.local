@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2021/10/01 11:31:13.000.609,=C:\Users\rodrigo.UNIMEDRF\Documents\Embarcadero\Studio\Projects\Unit4.pas</Transaction>
+    <Transaction>2022/10/13 21:48:42.000.380,=C:\Users\rodrigo.UNIMEDRF\Documents\Embarcadero\Studio\Projects\Unit4.pas</Transaction>
+    <Transaction>2023/02/14 11:46:15.000.590,=C:\Users\rodrigo.UNIMEDRF\Documents\Embarcadero\Studio\Projects\Unit5.pas</Transaction>
+    <Transaction>2023/11/09 09:04:07.000.499,=C:\Users\rodrigo.UNIMEDRF\Documents\Embarcadero\Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2023/11/23 09:55:23.000.375,=C:\Users\rodrigo.UNIMEDRF\Documents\Embarcadero\Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2024/10/21 14:16:24.000.486,=C:\Users\rodrigo.UNIMEDRF\Documents\Embarcadero\Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2024/10/21 14:37:36.000.215,C:\Users\rodrigo.UNIMEDRF\Documents\Embarcadero\Studio\Projects\Unit7.pas=C:\TesteSoftplan\TesteDelphiSr\Tests\Testes.pas</Transaction>
+    <Transaction>2024/10/21 14:40:26.000.269,C:\Users\rodrigo.UNIMEDRF\Documents\Embarcadero\Studio\Projects\Project3.dproj=C:\TesteSoftplan\TesteDelphiSr\Tests\PrjTestes.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

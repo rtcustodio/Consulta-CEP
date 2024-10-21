@@ -1,0 +1,18 @@
+unit App.model.CepResults.Intf;
+
+interface
+
+uses
+  Data.DB;
+
+type
+  IDAO_CEP_Results = interface
+    ['{CA1B3B8F-4346-43C3-9821-A8FB2E85F84D}']
+    function Dataset : TDataset;
+    function DataSource( AValue : TDataSource ) : IDAO_CEP_Results;
+    function Open : IDAO_CEP_Results;
+  end;
+
+implementation
+
+end.

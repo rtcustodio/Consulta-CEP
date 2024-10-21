@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2021/10/01 11:31:13.000.609,=C:\Users\rodrigo.UNIMEDRF\Documents\Embarcadero\Studio\Projects\Unit4.pas</Transaction>
+    <Transaction>2022/10/13 21:48:42.000.380,=C:\Users\rodrigo.UNIMEDRF\Documents\Embarcadero\Studio\Projects\Unit4.pas</Transaction>
+    <Transaction>2023/02/14 11:46:15.000.590,=C:\Users\rodrigo.UNIMEDRF\Documents\Embarcadero\Studio\Projects\Unit5.pas</Transaction>
+    <Transaction>2023/11/09 09:04:07.000.499,=C:\Users\rodrigo.UNIMEDRF\Documents\Embarcadero\Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2023/11/23 09:55:23.000.375,=C:\Users\rodrigo.UNIMEDRF\Documents\Embarcadero\Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2024/10/19 15:18:24.000.856,=C:\Users\rodrigo.UNIMEDRF\Documents\Embarcadero\Studio\Projects\Unit7.pas</Transaction>
+    <Transaction>2024/10/19 15:19:07.000.733,C:\Users\rodrigo.UNIMEDRF\Documents\Embarcadero\Studio\Projects\Unit7.pas=C:\TesteSoftplan\TesteDelphiSr\App\src\view\App.view.Principal.pas</Transaction>
+    <Transaction>2024/10/19 15:19:07.000.733,C:\Users\rodrigo.UNIMEDRF\Documents\Embarcadero\Studio\Projects\Unit7.dfm=C:\TesteSoftplan\TesteDelphiSr\App\src\view\App.view.Principal.dfm</Transaction>
+    <Transaction>2024/10/19 15:19:25.000.894,C:\Users\rodrigo.UNIMEDRF\Documents\Embarcadero\Studio\Projects\Project3.dproj=C:\TesteSoftplan\TesteDelphiSr\App\App.dproj</Transaction>
+    <Transaction>2024/10/20 21:44:23.000.502,=C:\TesteSoftplan\TesteDelphiSr\App\Unit1.pas</Transaction>
+    <Transaction>2024/10/20 21:45:00.000.167,C:\TesteSoftplan\TesteDelphiSr\App\src\model\datamodule\App.model.Datamodule.pas=C:\TesteSoftplan\TesteDelphiSr\App\Unit1.pas</Transaction>
+    <Transaction>2024/10/20 21:45:00.000.167,C:\TesteSoftplan\TesteDelphiSr\App\src\model\datamodule\App.model.Datamodule.dfm=C:\TesteSoftplan\TesteDelphiSr\App\Unit1.dfm</Transaction>
+    <Transaction>2024/10/20 22:34:18.000.564,=C:\TesteSoftplan\TesteDelphiSr\App\src\model\Query\SysService.Query.pas</Transaction>
+    <Transaction>2024/10/20 22:34:18.000.588,=C:\TesteSoftplan\TesteDelphiSr\App\src\model\Query\SysService.SQLConditions.pas</Transaction>
+    <Transaction>2024/10/20 22:35:08.000.871,=C:\TesteSoftplan\TesteDelphiSr\App\src\model\Query\SimpleInterface.pas</Transaction>
+    <Transaction>2024/10/20 22:37:00.000.947,=C:\TesteSoftplan\TesteDelphiSr\App\src\model\Query\APB.model.DB.Intf.pas</Transaction>
+    <Transaction>2024/10/20 22:38:03.000.769,=C:\TesteSoftplan\TesteDelphiSr\App\src\model\Query\SimpleQueryFiredac.pas</Transaction>
+    <Transaction>2024/10/20 22:41:06.000.146,C:\TesteSoftplan\TesteDelphiSr\App\src\model\Query\App.model.DB.Intf.pas=C:\TesteSoftplan\TesteDelphiSr\App\src\model\Query\APB.model.DB.Intf.pas</Transaction>
+    <Transaction>2024/10/20 22:42:04.000.229,C:\TesteSoftplan\TesteDelphiSr\App\src\model\Query\App.model.Query.pas=C:\TesteSoftplan\TesteDelphiSr\App\src\model\Query\SysService.Query.pas</Transaction>
+    <Transaction>2024/10/20 22:42:30.000.888,C:\TesteSoftplan\TesteDelphiSr\App\src\model\Query\App.model.SQLConditions.pas=C:\TesteSoftplan\TesteDelphiSr\App\src\model\Query\SysService.SQLConditions.pas</Transaction>
+    <Transaction>2024/10/20 22:50:23.000.953,=C:\TesteSoftplan\TesteDelphiSr\App\Unit1.pas</Transaction>
+    <Transaction>2024/10/20 22:51:52.000.128,C:\TesteSoftplan\TesteDelphiSr\App\Unit1.pas=C:\TesteSoftplan\TesteDelphiSr\App\src\model\Query\App.model.QueryFactory.pas</Transaction>
+    <Transaction>2024/10/20 22:56:51.000.498,C:\TesteSoftplan\TesteDelphiSr\App\src\model\Query\SimpleInterface.pas=</Transaction>
+    <Transaction>2024/10/20 22:59:27.000.057,=C:\TesteSoftplan\TesteDelphiSr\App\Unit1.pas</Transaction>
+    <Transaction>2024/10/20 23:01:49.000.826,C:\TesteSoftplan\TesteDelphiSr\App\Unit1.pas=C:\TesteSoftplan\TesteDelphiSr\App\src\model\CepResults\App.model.CepResults.Intf.pas</Transaction>
+    <Transaction>2024/10/20 23:04:44.000.791,=C:\TesteSoftplan\TesteDelphiSr\App\Unit1.pas</Transaction>
+    <Transaction>2024/10/20 23:06:11.000.234,C:\TesteSoftplan\TesteDelphiSr\App\Unit1.pas=C:\TesteSoftplan\TesteDelphiSr\App\src\model\CepResults\App.model.Cep.pas</Transaction>
+    <Transaction>2024/10/20 23:06:23.000.255,C:\TesteSoftplan\TesteDelphiSr\App\src\model\CepResults\App.model.CepResults.Intf.pas=C:\TesteSoftplan\TesteDelphiSr\App\src\model\CepResults\App.model.Cep.Intf.pas</Transaction>
+    <Transaction>2024/10/21 08:18:22.000.869,=C:\TesteSoftplan\TesteDelphiSr\App\Unit1.pas</Transaction>
+    <Transaction>2024/10/21 08:22:02.000.357,C:\TesteSoftplan\TesteDelphiSr\App\Unit1.pas=C:\TesteSoftplan\TesteDelphiSr\App\src\model\CepResults\App.model.Cep.CadastrarCep.pas</Transaction>
+    <Transaction>2024/10/21 13:45:22.000.351,=C:\TesteSoftplan\TesteDelphiSr\App\Unit1.pas</Transaction>
+    <Transaction>2024/10/21 13:46:52.000.199,C:\TesteSoftplan\TesteDelphiSr\App\Unit1.pas=C:\TesteSoftplan\TesteDelphiSr\App\src\model\utils\App.model.stringUtils.pas</Transaction>
+  </Transactions>
+</BorlandProject>

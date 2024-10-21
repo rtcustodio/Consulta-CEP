@@ -1,0 +1,155 @@
+unit SysConsultaCEP;
+
+interface
+
+uses
+  System.SysUtils,
+  System.Classes,
+  IdHTTP,
+  System.JSON,
+  Xml.XMLIntf,
+  Xml.XMLDoc,
+  IdSSL,
+  IdSSLOpenSSL;
+
+type
+  ISysConsultaCEP = interface
+    ['{8A7A418E-80E6-4573-8039-8DF92F13FEF3}']
+    procedure Consultar;
+  end;
+
+  TRetornoTipo = (rtJSON, rtXML);
+  TViaCEPResult = procedure(const Logradouro, Bairro, Cidade, Estado: string) of object;
+
+  TSysConsultaCEP = class(TComponent, ISysConsultaCEP)
+  private
+    FCEP: string;
+    FOnResult: TViaCEPResult;
+    FOnError: TNotifyEvent;
+    FRetornoTipo: TRetornoTipo;
+    procedure SetCEP(const Value: string);
+    procedure SetRetornoTipo(const Value: TRetornoTipo);
+    function ExtractJSONValue(JSONObj: TJSONObject; const Key: string): string;
+    function ExtractXMLValue(XMLDoc: IXMLDocument; const NodeName: string): string;
+  public
+    procedure Consultar;
+  published
+    property CEP: string read FCEP write SetCEP;
+    property RetornoTipo: TRetornoTipo read FRetornoTipo write SetRetornoTipo default rtJSON;
+    property OnResult: TViaCEPResult read FOnResult write FOnResult;
+    property OnError: TNotifyEvent read FOnError write FOnError;
+  end;
+
+procedure Register;
+
+implementation
+
+procedure Register;
+begin
+  RegisterComponents('Samples', [TSysConsultaCEP]);
+end;
+
+{ TViaCEP }
+
+function TSysConsultaCEP.ExtractJSONValue(JSONObj: TJSONObject; const Key: string): string;
+begin
+  if JSONObj.Values[Key] <> nil then
+    Result := JSONObj.GetValue<string>(Key)
+  else
+    Result := '';
+end;
+
+function TSysConsultaCEP.ExtractXMLValue(XMLDoc: IXMLDocument; const NodeName: string): string;
+begin
+  if XMLDoc.DocumentElement.ChildNodes.FindNode(NodeName) <> nil then
+    Result := XMLDoc.DocumentElement.ChildNodes[NodeName].Text
+  else
+    Result := '';
+end;
+
+procedure TSysConsultaCEP.Consultar;
+var
+  HTTP: TIdHTTP;
+  SSLHandler: TIdSSLIOHandlerSocketOpenSSL;
+  Response: string;
+  JSONValue: TJSONValue;
+  JSONObject: TJSONObject;
+  XMLDoc: IXMLDocument;
+  Logradouro, Bairro, Cidade, Estado: string;
+begin
+  HTTP := TIdHTTP.Create(nil);
+  SSLHandler := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  try
+    try
+      // Configurando o SSLHandler para suportar TLS 1.2
+      SSLHandler.SSLOptions.Method := sslvTLSv1_2;  // Forçando o uso do TLS 1.2
+      SSLHandler.SSLOptions.SSLVersions := [sslvTLSv1_2];
+
+      // Atribuindo o SSLHandler ao HTTP
+      HTTP.IOHandler := SSLHandler;
+
+      // Fazendo a requisição HTTP ao ViaCEP
+      case FRetornoTipo of
+        rtJSON:
+          Response := HTTP.Get('https://viacep.com.br/ws/' + FCEP + '/json/');
+        rtXML:
+          Response := HTTP.Get('https://viacep.com.br/ws/' + FCEP + '/xml/');
+      end;
+
+      // Processar o retorno JSON
+      if FRetornoTipo = rtJSON then
+      begin
+        JSONValue := TJSONObject.ParseJSONValue(Response);
+        if Assigned(JSONValue) and (JSONValue is TJSONObject) then
+        begin
+          JSONObject := TJSONObject(JSONValue);
+          Logradouro := ExtractJSONValue(JSONObject, 'logradouro');
+          Bairro := ExtractJSONValue(JSONObject, 'bairro');
+          Cidade := ExtractJSONValue(JSONObject, 'localidade');
+          Estado := ExtractJSONValue(JSONObject, 'uf');
+          if Assigned(FOnResult) then
+            FOnResult(Logradouro, Bairro, Cidade, Estado);
+        end
+        else
+          raise Exception.Create('Erro no formato do JSON.');
+      end
+      // Processar o retorno XML
+      else if FRetornoTipo = rtXML then
+      begin
+        XMLDoc := TXMLDocument.Create(nil);
+        XMLDoc.LoadFromXML(Response);
+
+        Logradouro := ExtractXMLValue(XMLDoc, 'logradouro');
+        Bairro := ExtractXMLValue(XMLDoc, 'bairro');
+        Cidade := ExtractXMLValue(XMLDoc, 'localidade');
+        Estado := ExtractXMLValue(XMLDoc, 'uf');
+        if Assigned(FOnResult) then
+          FOnResult(Logradouro, Bairro, Cidade, Estado);
+      end;
+
+    except
+      on E: Exception do
+      begin
+        if Assigned(FOnError) then
+          FOnError(Self);
+        raise;  // Se quiser continuar propagando o erro, pode manter isso
+      end;
+    end;
+  finally
+    SSLHandler.Free;
+    HTTP.Free;
+  end;
+end;
+
+procedure TSysConsultaCEP.SetCEP(const Value: string);
+begin
+  FCEP := Value;
+end;
+
+procedure TSysConsultaCEP.SetRetornoTipo(const Value: TRetornoTipo);
+begin
+  FRetornoTipo := Value;
+end;
+
+end.
+

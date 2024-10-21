@@ -1,0 +1,21 @@
+program App;
+
+uses
+  Vcl.Forms,
+  App.view.Principal in 'src\view\App.view.Principal.pas' {Form7},
+  App.model.Datamodule in 'src\model\datamodule\App.model.Datamodule.pas' {DM: TDataModule},
+  SysService.Query in 'src\model\Query\SysService.Query.pas',
+  SimpleInterface in 'src\model\Query\SimpleInterface.pas',
+  SysService.SQLConditions in 'src\model\Query\SysService.SQLConditions.pas',
+  APB.model.DB.Intf in 'src\model\Query\APB.model.DB.Intf.pas',
+  SimpleQueryFiredac in 'src\model\Query\SimpleQueryFiredac.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TForm7, Form7);
+  Application.CreateForm(TDM, DM);
+  Application.Run;
+end.

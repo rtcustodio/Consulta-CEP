@@ -1,0 +1,55 @@
+unit App.model.Cep;
+
+interface
+
+uses
+  App.model.Cep.Intf,
+  Data.DB,
+  App.model.DB.Intf,
+  App.model.QueryFactory;
+
+type
+  TDAO_CEP = class(TInterfacedObject, IDAO_CEP)
+  private
+    FQuery : IQuery;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    class function New : IDAO_CEP;
+    function DataSource( AValue : TDataSource ) : IDAO_CEP;
+    function Open : IDAO_CEP;
+  end;
+
+implementation
+
+{ TDAO_CEP }
+
+constructor TDAO_CEP.Create;
+begin
+  FQuery := TQueryFactory.New.Query.Table('cep_results');
+end;
+
+function TDAO_CEP.DataSource(AValue: TDataSource): IDAO_CEP;
+begin
+  Result := Self;
+  AValue.DataSet := FQuery.Dataset;
+end;
+
+destructor TDAO_CEP.Destroy;
+begin
+
+  inherited;
+end;
+
+class function TDAO_CEP.New: IDAO_CEP;
+begin
+  Result := Self.Create;
+end;
+
+function TDAO_CEP.Open: IDAO_CEP;
+begin
+  Result := Self;
+  FQuery.Open;
+end;
+
+end.

@@ -1,0 +1,50 @@
+unit App.model.Cep;
+
+interface
+
+uses
+  App.model.CepResults.Intf,
+  Data.DB;
+
+type
+  TDAO_CEP = class(TInterfacedObject, IDAO_CEP)
+  private
+  public
+    constructor Create;
+    destructor Destroy; override;
+    class function New : IDAO_CEP;
+    function DataSource( AValue : TDataSource ) : IDAO_CEP;
+    function Open : IDAO_CEP;
+  end;
+
+implementation
+
+{ TDAO_CEP }
+
+constructor TDAO_CEP.Create;
+begin
+
+end;
+
+function TDAO_CEP.DataSource(AValue: TDataSource): IDAO_CEP;
+begin
+
+end;
+
+destructor TDAO_CEP.Destroy;
+begin
+
+  inherited;
+end;
+
+class function TDAO_CEP.New: IDAO_CEP;
+begin
+  Result := Self.Create;
+end;
+
+function TDAO_CEP.Open: IDAO_CEP;
+begin
+
+end;
+
+end.

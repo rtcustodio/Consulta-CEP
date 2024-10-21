@@ -1,0 +1,19 @@
+program App;
+
+uses
+  Vcl.Forms,
+  App.view.Principal in '..\..\App\src\view\App.view.Principal.pas' {Form7},
+  CConsultaCEP in 'CConsultaCEP.pas',
+  CConsultaCEP.StrategyRetornoJSON in 'CConsultaCEP.StrategyRetornoJSON.pas',
+  CConsultaCEP.Intf in 'CConsultaCEP.Intf.pas',
+  CConsultaCEP.EventsAndEnums in 'CConsultaCEP.EventsAndEnums.pas',
+  CConsultaCEP.StrategyRetornoXML in 'CConsultaCEP.StrategyRetornoXML.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TForm7, Form7);
+  Application.Run;
+end.

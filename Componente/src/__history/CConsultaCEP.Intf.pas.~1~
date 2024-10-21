@@ -1,0 +1,19 @@
+unit CConsultaCEP.Intf;
+
+interface
+
+type
+  ISysConsultaCEP = interface
+    ['{8A7A418E-80E6-4573-8039-8DF92F13FEF3}']
+    procedure ConsultarPorCEP(ACEP: string);
+    procedure ConsultarPorEndereco(AUF, ACidade, ALogradouro: string);
+  end;
+
+  IRetornoStrategy = interface
+    ['{AAE7CDEE-65D9-4112-8BC4-C0D0F7D12871}']
+    procedure ProcessarResposta(const AResponse: string; AOnResult: TViaCEPResult; AOnError: TNotifyErrorEvent);
+  end;
+
+implementation
+
+end.

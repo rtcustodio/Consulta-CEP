@@ -1,0 +1,89 @@
+unit CConsultaCEP.StrategyRetornoJSON;
+
+interface
+
+uses
+  CConsultaCEP.EventsAndEnums,
+  CConsultaCEP.Intf,
+  System.JSON,
+  System.SysUtils,
+  System.Generics.Collections;
+
+type
+  TJSONRetornoStrategy = class(TInterfacedObject, IRetornoStrategy)
+  private
+    function ExtractJSONValue(JSONObj: TJSONObject; const Key: string): string;
+  public
+    procedure ProcessarRetorno(const AResponse: string; AOnResult: TViaCEPResult; AOnError: TNotifyErrorEvent);
+  end;
+
+implementation
+
+{ TJSONRetornoStrategy }
+
+function TJSONRetornoStrategy.ExtractJSONValue(JSONObj: TJSONObject;
+  const Key: string): string;
+begin
+  if JSONObj.Values[Key] <> nil then
+    Result := JSONObj.GetValue<string>(Key)
+  else
+    Result := '';
+end;
+
+procedure TJSONRetornoStrategy.ProcessarRetorno(const AResponse: string;
+  AOnResult: TViaCEPResult; AOnError: TNotifyErrorEvent);
+var
+  JSONValue: TJSONValue;
+  JSONArray: TJSONArray;
+  JSONObject: TJSONObject;
+  Logradouro, Complemento, Bairro, Cidade, Estado, CEP: string;
+  I: Integer;
+begin
+  JSONValue := TJSONObject.ParseJSONValue(AResponse);
+
+  if not Assigned(JSONValue) then
+    raise Exception.Create('Erro no formato do JSON.');
+
+  try
+    if JSONValue is TJSONArray then
+    begin
+      // Quando for um array de objetos (consulta por endereço)
+      JSONArray := JSONValue as TJSONArray;
+      for I := 0 to JSONArray.Count - 1 do
+      begin
+        JSONObject := JSONArray.Items[I] as TJSONObject;
+        CEP := ExtractJSONValue(JSONObject, 'cep');
+        Logradouro := ExtractJSONValue(JSONObject, 'logradouro');
+        Complemento := ExtractJSONValue(JSONObject, 'complemento');
+        Bairro := ExtractJSONValue(JSONObject, 'bairro');
+        Cidade := ExtractJSONValue(JSONObject, 'localidade');
+        Estado := ExtractJSONValue(JSONObject, 'uf');
+
+        // Chama o evento de resultado para cada endereço encontrado
+        if Assigned(AOnResult) then
+          AOnResult(CEP, Logradouro, Complemento, Bairro, Cidade, Estado, AResponse);
+      end;
+    end
+    else if JSONValue is TJSONObject then
+    begin
+      // Quando for um objeto único (consulta por CEP)
+      JSONObject := JSONValue as TJSONObject;
+      CEP := ExtractJSONValue(JSONObject, 'cep');
+      Logradouro := ExtractJSONValue(JSONObject, 'logradouro');
+      Complemento := ExtractJSONValue(JSONObject, 'complemento');
+      Bairro := ExtractJSONValue(JSONObject, 'bairro');
+      Cidade := ExtractJSONValue(JSONObject, 'localidade');
+      Estado := ExtractJSONValue(JSONObject, 'uf');
+
+      // Chama o evento de resultado com o único endereço encontrado
+      if Assigned(AOnResult) then
+        AOnResult(CEP, Logradouro, Complemento, Bairro, Cidade, Estado, AResponse);
+    end
+    else
+      raise Exception.Create('Formato de resposta JSON não suportado.');
+  finally
+    JSONValue.Free;
+  end;
+end;
+
+end.

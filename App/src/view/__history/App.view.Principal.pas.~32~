@@ -1,0 +1,129 @@
+unit App.view.Principal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, CConsultaCEP, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.Buttons, Data.DB, Vcl.Mask, Vcl.Grids, Vcl.DBGrids, App.model.Cep.Intf,
+  App.model.Cep;
+
+type
+  TfrmPrincipal = class(TForm)
+    SysConsultaCEP1: TSysConsultaCEP;
+    Panel1: TPanel;
+    rdgTipoPesquisa: TRadioGroup;
+    DBGrid1: TDBGrid;
+    rdgTipoRetorno: TRadioGroup;
+    Panel2: TPanel;
+    grpPesquisaCEP: TGroupBox;
+    edtCEP: TLabeledEdit;
+    grpPesquisaEndereco: TGroupBox;
+    edtUF: TLabeledEdit;
+    edtCidade: TLabeledEdit;
+    edtLogradouro: TLabeledEdit;
+    BitBtn1: TBitBtn;
+    dsConsultas: TDataSource;
+    procedure BitBtn1Click(Sender: TObject);
+    procedure SysConsultaCEP1Result(const Endereco: TEndereco);
+    procedure rdgTipoPesquisaClick(Sender: TObject);
+    procedure SysConsultaCEP1Error(Sender: TObject; const ErrorMsg: string);
+    procedure rdgTipoRetornoClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    FCEP : IDAO_CEP;
+    procedure PesquisarPorCEP;
+    procedure PesquisarPorEndereco;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPrincipal: TfrmPrincipal;
+
+implementation
+
+uses
+  CConsultaCEP.EventsAndEnums;
+
+{$R *.dfm}
+
+procedure TfrmPrincipal.BitBtn1Click(Sender: TObject);
+begin
+  case rdgTipoPesquisa.ItemIndex of
+   0: PesquisarPorCEP;
+   1: PesquisarPorEndereco;
+  end;
+end;
+
+procedure TfrmPrincipal.FormCreate(Sender: TObject);
+begin
+  FCEP := TDAO_CEP.New.DataSource(dsConsultas).Open;
+end;
+
+procedure TfrmPrincipal.PesquisarPorCEP;
+begin
+  if dsConsultas.DataSet.Locate('cep', edtCEP.Text, []) then
+  begin
+    var Resp := Application.MessageBox('CEP pesquisado já existe na base de dados. Deseja atualizar os dados em uma nova pesquisa?', 'Confirma', MB_YESNO + MB_ICONQUESTION);
+    if Resp = mrNo then Exit;
+  end;
+
+  SysConsultaCEP1.ConsultarPorCEP(edtCEP.Text);
+end;
+
+procedure TfrmPrincipal.PesquisarPorEndereco;
+begin
+  SysConsultaCEP1.ConsultarPorEndereco(edtUF.Text, edtCidade.Text, edtLogradouro.Text);
+end;
+
+procedure TfrmPrincipal.rdgTipoPesquisaClick(Sender: TObject);
+  procedure ConfiguraPesquisaCEP;
+  begin
+    grpPesquisaCEP.Visible := true;
+    grpPesquisaEndereco.Visible := false;
+    edtCEP.SetFocus;
+  end;
+
+  procedure ConfiguraPesquisaEndereco;
+  begin
+    grpPesquisaCEP.Visible := false;
+    grpPesquisaEndereco.Visible := true;
+    edtUF.SetFocus;
+  end;
+begin
+  case rdgTipoPesquisa.ItemIndex of
+   0: ConfiguraPesquisaCEP ;
+   1: ConfiguraPesquisaEndereco;
+  end;
+end;
+
+procedure TfrmPrincipal.rdgTipoRetornoClick(Sender: TObject);
+begin
+  case rdgTipoRetorno.ItemIndex of
+   0 : SysConsultaCEP1.RetornoTipo := JSON;
+   1 : SysConsultaCEP1.RetornoTipo := XML;
+  end;
+end;
+
+procedure TfrmPrincipal.SysConsultaCEP1Error(Sender: TObject; const ErrorMsg: string);
+begin
+  ShowMessage(ErrorMsg);
+end;
+
+procedure TfrmPrincipal.SysConsultaCEP1Result(const Endereco: TEndereco);
+begin
+  FCEP.CadastrarCEP
+    .CEP( Endereco.CEP )
+    .Logradouro( Endereco.Logradouro )
+    .Complemento( Endereco.Complemento )
+    .Bairro( Endereco.Bairro )
+    .Localidade( Endereco.Localidade )
+    .UF( Endereco.UF )
+    .Cadastrar;
+
+  dsConsultas.DataSet.Refresh;
+  dsConsultas.DataSet.Locate('cep', edtCEP.Text, []);
+end;
+
+end.

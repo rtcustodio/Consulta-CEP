@@ -1,0 +1,23 @@
+unit App.model.Cep.Intf;
+
+interface
+
+uses
+  Data.DB;
+
+type
+  IDAO_CEP = interface
+    ['{CA1B3B8F-4346-43C3-9821-A8FB2E85F84D}']
+    //function Dataset : TDataset;
+    function DataSource( AValue : TDataSource ) : IDAO_CEP;
+    function Open : IDAO_CEP;
+  end;
+
+  ICadastrarCep = interface
+    ['{BC812CA9-9044-405F-815F-E16C4A0B3622}']
+
+  end;
+
+implementation
+
+end.

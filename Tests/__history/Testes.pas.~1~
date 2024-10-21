@@ -1,0 +1,58 @@
+unit Testes;
+
+interface
+
+uses
+  DUnitX.TestFramework,
+  CConsultaCEP,
+  CConsultaCEP.Classes,
+  CConsultaCEP.EventsAndEnums,
+  SysUtils;
+
+type
+  [TestFixture]
+  TMyTestObject = class
+  private
+    SysConsultaCEP1: TSysConsultaCEP;
+    procedure OnResultTestJSON(const Endereco : TEndereco);
+  public
+    [Setup]
+    procedure Setup;
+    [TearDown]
+    procedure TearDown;
+    [Test]
+    procedure TestConsultaJSON;
+  end;
+
+implementation
+
+procedure TMyTestObject.OnResultTestJSON(const Endereco: TEndereco);
+begin
+  Assert.AreEqual('01001-000', Endereco.CEP);
+  Assert.AreEqual('Praça da Sé', Endereco.Logradouro);
+  Assert.AreEqual('São Paulo', Endereco.Localidade);
+end;
+
+procedure TMyTestObject.Setup;
+begin
+  SysConsultaCEP1 := TSysConsultaCEP.Create(nil);
+end;
+
+procedure TMyTestObject.TearDown;
+begin
+  FreeAndNil(SysConsultaCEP1);
+end;
+
+procedure TMyTestObject.TestConsultaJSON;
+//var
+//  JSONResponse: string;
+begin
+//  JSONResponse := '{"cep":"01001-000","logradouro":"Praça da Sé","bairro":"Sé","localidade":"São Paulo","uf":"SP"}';
+  SysConsultaCEP1.OnResult := OnResultTestJSON;
+  SysConsultaCEP1.ConsultarPorCEP('01001-000');
+end;
+
+initialization
+  TDUnitX.RegisterTestFixture(TMyTestObject);
+
+end.

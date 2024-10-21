@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<test-results name="C:\TesteSoftplan\TesteDelphiSr\Tests\Win32\Debug\PrjTestes.exe" total="4" errors="2" failures="0" ignored="0" inconclusive="0" not-run="0" skipped="0" invalid="0" date="2024-10-21" time="12.721">
+  <culture-info current-culture="en" current-uiculture="en" />
+  <test-suite type="Assembly" name="PrjTestes.exe" executed="true" result="Failure" success="False" time="12.721" asserts="0">
+    <results>
+        <test-suite type="Namespace" name="Testes" executed="true" result="Success" success="True" time="12.719" asserts="0" >
+          <results>
+              <test-suite type="Fixture" name="TMyTestObject" executed="True" result="Success" success="True" time="12.719" >
+                <results>
+                  <test-case name="TestConsultaJSONPorCEP" executed="True" result="Success" success="True" time="1.750" asserts="0" />
+                  <test-case name="TestConsultaJSONPorEndereco" executed="True" result="Success" success="True" time="0.712" asserts="0" />
+                  <test-case name="TestConsultaXMLPorCEP" executed="True" result="Error" success="False" time="5.561" asserts="0" >
+                    <failure>
+                      <message>
+                        <![CDATA[ Microsoft MSXML is not installed ]]>
+                      </message>
+                      <stack-trace>
+                        <![CDATA[  ]]>
+                      </stack-trace>
+                    </failure>
+                  </test-case>
+                  <test-case name="TestConsultaXMLPorEndereco" executed="True" result="Error" success="False" time="4.556" asserts="0" >
+                    <failure>
+                      <message>
+                        <![CDATA[ Microsoft MSXML is not installed ]]>
+                      </message>
+                      <stack-trace>
+                        <![CDATA[  ]]>
+                      </stack-trace>
+                    </failure>
+                  </test-case>
+                </results>
+              </test-suite>
+          </results>
+        </test-suite>
+    </results>
+  </test-suite>
+</test-results>

@@ -1,0 +1,15 @@
+program App;
+
+uses
+  Vcl.Forms,
+  App.view.Principal in '..\..\App\src\view\App.view.Principal.pas' {Form7},
+  CConsultaCEP in 'CConsultaCEP.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TForm7, Form7);
+  Application.Run;
+end.

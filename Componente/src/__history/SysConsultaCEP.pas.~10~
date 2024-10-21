@@ -1,0 +1,243 @@
+unit SysConsultaCEP;
+
+interface
+
+uses
+  System.SysUtils,
+  System.Classes,
+  IdHTTP,
+  System.JSON,
+  Xml.XMLIntf,
+  Xml.XMLDoc,
+  IdSSL,
+  IdSSLOpenSSL;
+
+type
+  ISysConsultaCEP = interface
+    ['{8A7A418E-80E6-4573-8039-8DF92F13FEF3}']
+    procedure ConsultarPorCEP;
+    procedure ConsultarPorEndereco;
+  end;
+
+  TRetornoTipo = (rtJSON, rtXML);
+  TViaCEPResult = procedure(const CEP, Logradouro, Bairro, Cidade, Estado: string) of object;
+//  TViaCEPEnderecoResult = procedure(const CEP, Logradouro, Bairro, Cidade, Estado: string) of object;
+
+  TSysConsultaCEP = class(TComponent, ISysConsultaCEP)
+  private
+    FCEP: string;
+    FUF: string;
+    FCidade: string;
+    FLogradouro: string;
+    FOnResult: TViaCEPResult;
+//    FOnEnderecoResult: TViaCEPEnderecoResult;
+    FOnError: TNotifyEvent;
+    FRetornoTipo: TRetornoTipo;
+    procedure SetCEP(const Value: string);
+    procedure SetUF(const Value: string);
+    procedure SetCidade(const Value: string);
+    procedure SetLogradouro(const Value: string);
+    procedure SetRetornoTipo(const Value: TRetornoTipo);
+    function ExtractJSONValue(JSONObj: TJSONObject; const Key: string): string;
+    function ExtractXMLValue(XMLDoc: IXMLDocument; const NodeName: string): string;
+  public
+    procedure ConsultarPorCEP;
+    procedure ConsultarPorEndereco;
+  published
+    property CEP: string read FCEP write SetCEP;
+    property UF: string read FUF write SetUF;
+    property Cidade: string read FCidade write SetCidade;
+    property Logradouro: string read FLogradouro write SetLogradouro;
+    property RetornoTipo: TRetornoTipo read FRetornoTipo write SetRetornoTipo default rtJSON;
+    property OnResult: TViaCEPResult read FOnResult write FOnResult;
+    property OnEnderecoResult: TViaCEPResult read FOnResult write FOnResult;
+    property OnError: TNotifyEvent read FOnError write FOnError;
+  end;
+
+procedure Register;
+
+implementation
+
+procedure Register;
+begin
+  RegisterComponents('Samples', [TSysConsultaCEP]);
+end;
+
+{ TSysConsultaCEP }
+
+function TSysConsultaCEP.ExtractJSONValue(JSONObj: TJSONObject; const Key: string): string;
+begin
+  if JSONObj.Values[Key] <> nil then
+    Result := JSONObj.GetValue<string>(Key)
+  else
+    Result := '';
+end;
+
+function TSysConsultaCEP.ExtractXMLValue(XMLDoc: IXMLDocument; const NodeName: string): string;
+begin
+  if XMLDoc.DocumentElement.ChildNodes.FindNode(NodeName) <> nil then
+    Result := XMLDoc.DocumentElement.ChildNodes[NodeName].Text
+  else
+    Result := '';
+end;
+
+procedure TSysConsultaCEP.ConsultarPorCEP;
+var
+  HTTP: TIdHTTP;
+  SSLHandler: TIdSSLIOHandlerSocketOpenSSL;
+  Response: string;
+  JSONValue: TJSONValue;
+  JSONObject: TJSONObject;
+  XMLDoc: IXMLDocument;
+  Logradouro, Bairro, Cidade, Estado: string;
+begin
+  HTTP := TIdHTTP.Create(nil);
+  SSLHandler := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  try
+    try
+      // Configurando o SSLHandler para suportar TLS 1.2
+      SSLHandler.SSLOptions.Method := sslvTLSv1_2;
+      SSLHandler.SSLOptions.SSLVersions := [sslvTLSv1_2];
+
+      // Atribuindo o SSLHandler ao HTTP
+      HTTP.IOHandler := SSLHandler;
+
+      // Fazendo a requisição HTTP ao ViaCEP
+      case FRetornoTipo of
+        rtJSON:
+          Response := HTTP.Get('https://viacep.com.br/ws/' + FCEP + '/json/');
+        rtXML:
+          Response := HTTP.Get('https://viacep.com.br/ws/' + FCEP + '/xml/');
+      end;
+
+      // Processar o retorno JSON
+      if FRetornoTipo = rtJSON then
+      begin
+        JSONValue := TJSONObject.ParseJSONValue(Response);
+        if Assigned(JSONValue) and (JSONValue is TJSONObject) then
+        begin
+          JSONObject := TJSONObject(JSONValue);
+          Logradouro := ExtractJSONValue(JSONObject, 'logradouro');
+          Bairro := ExtractJSONValue(JSONObject, 'bairro');
+          Cidade := ExtractJSONValue(JSONObject, 'localidade');
+          Estado := ExtractJSONValue(JSONObject, 'uf');
+          if Assigned(FOnResult) then
+            FOnResult(FCEP, Logradouro, Bairro, Cidade, Estado);
+        end
+        else
+          raise Exception.Create('Erro no formato do JSON.');
+      end
+      // Processar o retorno XML
+      else if FRetornoTipo = rtXML then
+      begin
+        XMLDoc := TXMLDocument.Create(nil);
+        XMLDoc.LoadFromXML(Response);
+
+        Logradouro := ExtractXMLValue(XMLDoc, 'logradouro');
+        Bairro := ExtractXMLValue(XMLDoc, 'bairro');
+        Cidade := ExtractXMLValue(XMLDoc, 'localidade');
+        Estado := ExtractXMLValue(XMLDoc, 'uf');
+        if Assigned(FOnResult) then
+          FOnResult(FCEP, Logradouro, Bairro, Cidade, Estado);
+      end;
+
+    except
+      on E: Exception do
+      begin
+        if Assigned(FOnError) then
+          FOnError(Self);
+        raise;  // Se quiser continuar propagando o erro, pode manter isso
+      end;
+    end;
+  finally
+    SSLHandler.Free;
+    HTTP.Free;
+  end;
+end;
+
+procedure TSysConsultaCEP.ConsultarPorEndereco;
+var
+  HTTP: TIdHTTP;
+  SSLHandler: TIdSSLIOHandlerSocketOpenSSL;
+  Response: string;
+  JSONValue: TJSONArray;
+  JSONItem: TJSONObject;
+  I: Integer;
+  CEP, Logradouro, Bairro, Cidade, Estado: string;
+begin
+  HTTP := TIdHTTP.Create(nil);
+  SSLHandler := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  try
+    try
+      // Configurando o SSLHandler para suportar TLS 1.2
+      SSLHandler.SSLOptions.Method := sslvTLSv1_2;
+      SSLHandler.SSLOptions.SSLVersions := [sslvTLSv1_2];
+
+      // Atribuindo o SSLHandler ao HTTP
+      HTTP.IOHandler := SSLHandler;
+
+      // Fazendo a requisição HTTP ao ViaCEP para buscar por endereço
+      Response := HTTP.Get(Format('https://viacep.com.br/ws/%s/%s/%s/json/',
+                    [FUF, FCidade, FLogradouro]));
+
+      // Processar o retorno JSON com a lista de CEPs
+      JSONValue := TJSONObject.ParseJSONValue(Response) as TJSONArray;
+      if Assigned(JSONValue) then
+      begin
+        for I := 0 to JSONValue.Count - 1 do
+        begin
+          JSONItem := JSONValue.Items[I] as TJSONObject;
+          CEP := ExtractJSONValue(JSONItem, 'cep');
+          Logradouro := ExtractJSONValue(JSONItem, 'logradouro');
+          Bairro := ExtractJSONValue(JSONItem, 'bairro');
+          Cidade := ExtractJSONValue(JSONItem, 'localidade');
+          Estado := ExtractJSONValue(JSONItem, 'uf');
+
+          if Assigned(FOnResult) then
+            FOnResult(CEP, Logradouro, Bairro, Cidade, Estado);
+        end;
+      end
+      else
+        raise Exception.Create('Erro no formato do JSON.');
+
+    except
+      on E: Exception do
+      begin
+        if Assigned(FOnError) then
+          FOnError(Self);
+        raise;  // Se quiser continuar propagando o erro, pode manter isso
+      end;
+    end;
+  finally
+    SSLHandler.Free;
+    HTTP.Free;
+  end;
+end;
+
+procedure TSysConsultaCEP.SetCEP(const Value: string);
+begin
+  FCEP := Value;
+end;
+
+procedure TSysConsultaCEP.SetUF(const Value: string);
+begin
+  FUF := Value;
+end;
+
+procedure TSysConsultaCEP.SetCidade(const Value: string);
+begin
+  FCidade := Value;
+end;
+
+procedure TSysConsultaCEP.SetLogradouro(const Value: string);
+begin
+  FLogradouro := Value;
+end;
+
+procedure TSysConsultaCEP.SetRetornoTipo(const Value: TRetornoTipo);
+begin
+  FRetornoTipo := Value;
+end;
+
+end.
+

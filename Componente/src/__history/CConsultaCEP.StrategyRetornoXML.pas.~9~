@@ -1,0 +1,95 @@
+unit CConsultaCEP.StrategyRetornoXML;
+
+interface
+
+uses
+  CConsultaCEP.Intf,
+  Xml.XMLIntf,
+  Xml.XMLDoc,
+  CConsultaCEP.EventsAndEnums,
+  System.Variants, CConsultaCEP.Classes;
+
+type
+  TXMLRetornoStrategy = class(TInterfacedObject, IRetornoStrategy)
+  private
+
+  public
+    procedure ProcessarRetorno(const AResponse: string; AOnResult: TViaCEPResult; AOnError: TNotifyErrorEvent);
+  end;
+
+implementation
+
+uses
+  System.SysUtils;
+
+{ TConsultaCEPStrategyXML }
+
+procedure TXMLRetornoStrategy.ProcessarRetorno(const AResponse: string; AOnResult: TViaCEPResult; AOnError: TNotifyErrorEvent);
+var
+  XMLDocument: IXMLDocument;
+  RootNode, EnderecoNode, EnderecosNode: IXMLNode;
+//  Logradouro, Complemento, Bairro, Cidade, Estado, CEP: string;
+  Endereco : TEndereco;
+  I: Integer;
+begin
+  // Carrega o XML no documento
+  XMLDocument := LoadXMLData(AResponse);
+  RootNode := XMLDocument.DocumentElement;
+
+  if not Assigned(RootNode) then
+    raise Exception.Create('Erro no formato do XML.');
+
+  try
+    // Verifica se o nó raiz é 'xmlcep'
+    if RootNode.NodeName = 'xmlcep' then
+    begin
+      // Verifica se contém uma lista de endereços (consulta por endereço)
+      EnderecosNode := RootNode.ChildNodes.FindNode('enderecos');
+
+      if Assigned(EnderecosNode) then
+      begin
+        // Caso seja uma lista de endereços, processa múltiplos nós 'endereco'
+        for I := 0 to EnderecosNode.ChildNodes.Count - 1 do
+        begin
+          Endereco := TEndereco.Create;
+          EnderecoNode := EnderecosNode.ChildNodes[I];
+          Endereco.CEP := EnderecoNode.ChildValues['cep'];
+          Endereco.Logradouro := EnderecoNode.ChildValues['logradouro'];
+          if not VarIsNull( EnderecoNode.ChildValues['complemento'] ) then
+            Endereco.Complemento := EnderecoNode.ChildValues['complemento'];
+          Endereco.Bairro := EnderecoNode.ChildValues['bairro'];
+          Endereco.Localidade := EnderecoNode.ChildValues['localidade'];
+          Endereco.UF := EnderecoNode.ChildValues['uf'];
+
+          // Chama o evento de resultado para cada endereço encontrado
+          if Assigned(AOnResult) then
+            AOnResult(Endereco);
+        end;
+      end
+      else
+      begin
+        // Caso seja apenas um único endereço (consulta por CEP)
+        Endereco := TEndereco.Create;
+        Endereco.CEP := RootNode.ChildValues['cep'];
+        Endereco.Logradouro := RootNode.ChildValues['logradouro'];
+        if not VarIsNull( RootNode.ChildValues['complemento'] ) then
+          Endereco.Complemento := RootNode.ChildValues['complemento'];
+        Endereco.Bairro := RootNode.ChildValues['bairro'];
+        Endereco.Localidade := RootNode.ChildValues['localidade'];
+        Endereco.UF := RootNode.ChildValues['uf'];
+
+        // Chama o evento de resultado para o único endereço encontrado
+        if Assigned(AOnResult) then
+          AOnResult(Endereco);
+      end;
+    end
+    else
+      raise Exception.Create('Formato de resposta XML não suportado.');
+  except
+    on E: Exception do
+      raise Exception.Create('Erro ao processar XML: ' + E.Message);
+  end;
+
+end;
+
+end.
