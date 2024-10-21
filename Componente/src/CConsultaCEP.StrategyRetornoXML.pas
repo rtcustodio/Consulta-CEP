@@ -52,6 +52,7 @@ begin
         begin
           if Assigned(AOnError) then
             AOnError(Self, 'Nenhum endereço localizado');
+          Abort;
         end;
 
         for I := 0 to EnderecosNode.ChildNodes.Count - 1 do
@@ -81,7 +82,7 @@ begin
         if Erro and Assigned(AOnError) then
         begin
           AOnError(Self, 'O CEP informado não existe.');
-          Exit;
+          Abort;
         end;
 
         Endereco := TEndereco.Create;
@@ -101,7 +102,14 @@ begin
       raise Exception.Create('Formato de resposta XML não suportado.');
   except
     on E: Exception do
-      raise Exception.Create('Erro ao processar XML: ' + E.Message);
+    begin
+      if E is EAbort then Abort;
+
+      if Assigned(AOnError) then
+        AOnError(Self, 'Erro ao processar o retorno JSON: ' + E.Message)
+      else raise Exception.Create(e.Message);
+
+    end;
   end;
 
 end;

@@ -3,26 +3,26 @@
 	<Transactions>
     <Transaction>2024/10/18 14:26:01.000.214,=rtl.dcp</Transaction>
     <Transaction>2024/10/18 14:26:52.000.290,=C:\TesteSoftplan\TesteDelphiSr\Componente\src\CConsultaCEP.pas</Transaction>
-    <Transaction>2024/10/18 14:27:52.000.763,C:\Users\rodrigo.UNIMEDRF\Documents\Embarcadero\Studio\Projects\Package1.dproj=C:\TesteSoftplan\TesteDelphiSr\Componente\src\pckConsultaCEP.dproj</Transaction>
+    <Transaction>2024/10/18 14:27:52.000.763,C:\TesteSoftplan\TesteDelphiSr\Componente\src\pckConsultaCEP.dproj=C:\Users\rodrigo.UNIMEDRF\Documents\Embarcadero\Studio\Projects\Package1.dproj</Transaction>
     <Transaction>2024/10/18 14:28:06.000.567,=IndySystem.dcp</Transaction>
-    <Transaction>2024/10/18 14:28:06.000.665,=IndyProtocols.dcp</Transaction>
     <Transaction>2024/10/18 14:28:06.000.721,=IndyCore.dcp</Transaction>
+    <Transaction>2024/10/18 14:28:06.000.665,=IndyProtocols.dcp</Transaction>
     <Transaction>2024/10/18 14:28:06.000.497,=xmlrtl.dcp</Transaction>
     <Transaction>2024/10/19 15:14:43.000.731,=C:\TesteSoftplan\TesteDelphiSr\Componente\src\CConsultaCEP.EventsAndEnums.pas</Transaction>
-    <Transaction>2024/10/19 15:14:46.000.419,=C:\TesteSoftplan\TesteDelphiSr\Componente\src\CConsultaCEP.HTTPIndy.pas</Transaction>
-    <Transaction>2024/10/19 15:14:46.000.496,=C:\TesteSoftplan\TesteDelphiSr\Componente\src\CConsultaCEP.StrategyRetornoJSON.pas</Transaction>
     <Transaction>2024/10/19 15:14:46.000.536,=C:\TesteSoftplan\TesteDelphiSr\Componente\src\CConsultaCEP.StrategyRetornoXML.pas</Transaction>
     <Transaction>2024/10/19 15:14:46.000.439,=C:\TesteSoftplan\TesteDelphiSr\Componente\src\CConsultaCEP.Intf.pas</Transaction>
+    <Transaction>2024/10/19 15:14:46.000.496,=C:\TesteSoftplan\TesteDelphiSr\Componente\src\CConsultaCEP.StrategyRetornoJSON.pas</Transaction>
+    <Transaction>2024/10/19 15:14:46.000.419,=C:\TesteSoftplan\TesteDelphiSr\Componente\src\CConsultaCEP.HTTPIndy.pas</Transaction>
     <Transaction>2024/10/19 15:15:48.000.744,C:\TesteSoftplan\TesteDelphiSr\Componente\src\CConsultaCEP.HTTPIndy.pas=</Transaction>
-    <Transaction>2024/10/19 15:16:23.000.697,=IndyProtocols.dcp</Transaction>
-    <Transaction>2024/10/19 15:16:23.000.705,=IndyCore.dcp</Transaction>
-    <Transaction>2024/10/19 15:16:23.000.661,=xmlrtl.dcp</Transaction>
     <Transaction>2024/10/19 15:16:23.000.687,=IndySystem.dcp</Transaction>
+    <Transaction>2024/10/19 15:16:23.000.661,=xmlrtl.dcp</Transaction>
+    <Transaction>2024/10/19 15:16:23.000.705,=IndyCore.dcp</Transaction>
+    <Transaction>2024/10/19 15:16:23.000.697,=IndyProtocols.dcp</Transaction>
     <Transaction>2024/10/19 15:16:37.000.689,=C:\TesteSoftplan\TesteDelphiSr\Componente\src\CConsultaCEP.HTTPIndy.pas</Transaction>
     <Transaction>2024/10/20 20:17:25.000.567,=C:\TesteSoftplan\TesteDelphiSr\Componente\src\Unit1.pas</Transaction>
-    <Transaction>2024/10/20 20:18:32.000.069,C:\TesteSoftplan\TesteDelphiSr\Componente\src\Unit1.pas=C:\TesteSoftplan\TesteDelphiSr\Componente\src\CConsultaCEP.Classes.pas</Transaction>
+    <Transaction>2024/10/20 20:18:32.000.069,C:\TesteSoftplan\TesteDelphiSr\Componente\src\CConsultaCEP.Classes.pas=C:\TesteSoftplan\TesteDelphiSr\Componente\src\Unit1.pas</Transaction>
     <Transaction>2024/10/20 20:29:22.000.843,=RESTComponents.dcp</Transaction>
-    <Transaction>2024/10/21 16:23:20.646,=C:\TesteSoftplan\TesteDelphiSr\Componente\src\Unit1.pas</Transaction>
-    <Transaction>2024/10/21 16:26:07.211,C:\TesteSoftplan\TesteDelphiSr\Componente\src\CConsultaCEP.StrategyFactory.pas=C:\TesteSoftplan\TesteDelphiSr\Componente\src\Unit1.pas</Transaction>
+    <Transaction>2024/10/21 16:23:20.000.646,=C:\TesteSoftplan\TesteDelphiSr\Componente\src\Unit1.pas</Transaction>
+    <Transaction>2024/10/21 16:26:07.000.211,C:\TesteSoftplan\TesteDelphiSr\Componente\src\Unit1.pas=C:\TesteSoftplan\TesteDelphiSr\Componente\src\CConsultaCEP.StrategyFactory.pas</Transaction>
   </Transactions>
 </BorlandProject>

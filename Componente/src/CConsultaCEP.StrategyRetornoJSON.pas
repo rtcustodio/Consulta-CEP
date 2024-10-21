@@ -52,7 +52,7 @@ begin
         begin
           if Assigned(AOnError) then
             AOnError(Self, 'Nenhum endereço localizado');
-          Exit;
+          Abort;
         end;
 
         for I := 0 to JSONArray.Count - 1 do
@@ -74,7 +74,7 @@ begin
         begin
           if Assigned(AOnError) then
             AOnError(Self, 'CEP informado não existe');
-          Exit;
+          Abort;
         end;
 
         if Assigned(Endereco) then
@@ -93,9 +93,13 @@ begin
 
     except
       on E: Exception do
+      begin
+         if E is EAbort then Abort;
+
         if Assigned(AOnError) then
           AOnError(Self, 'Erro ao processar o retorno JSON: ' + E.Message)
         else raise Exception.Create(e.Message);
+      end;
     end;
   finally
     JSONValue.Free;

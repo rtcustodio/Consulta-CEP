@@ -158,6 +158,7 @@ end;
 procedure TfrmPrincipal.SysConsultaCEP1Error(Sender: TObject; const ErrorMsg: string);
 begin
   Application.MessageBox(PWideChar(ErrorMsg), 'Atenção', MB_ICONWARNING);
+  Abort;
 end;
 
 procedure TfrmPrincipal.SysConsultaCEP1Result(const Endereco: TEndereco);
