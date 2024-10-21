@@ -53,8 +53,9 @@ begin</br>
   ShowMessage('Endereço: ' + Endereco.Logradouro);</br>
 end;</br></i>
 </br>
-<b>2. Aplicação de Exemplo:</b>
-Na pasta App, você encontrará uma aplicação de exemplo que demonstra como utilizar o componente. Esta aplicação utiliza o SQLite como banco de dados e inclui um arquivo config.ini para definir o local da base de dados. </br>
+<b>2. Aplicação de Exemplo:</b><br>
+- Na pasta App, você encontrará uma aplicação de exemplo que demonstra como utilizar o componente. Esta aplicação utiliza o SQLite como banco de dados e inclui um arquivo config.ini para definir o local da base de dados. </br>
+<b>*** Configurar o local do banco de dados no config.ini***</b><br>
 - A aplicação grava todas as consultas realizadas na base. Caso um registro já exista, ela pergunta se você deseja atualizar os dados. </br>
 </br>
 <b>Testes</b>
