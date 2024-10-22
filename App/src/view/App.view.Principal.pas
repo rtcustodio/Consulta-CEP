@@ -46,6 +46,7 @@ type
     FStringCEPSBusca : TStringList;
     procedure PesquisarPorCEP;
     procedure PesquisarPorEndereco;
+    procedure AdicionarCEPNaListaDeBusca( ACep : string );
   public
     { Public declarations }
   end;
@@ -59,6 +60,11 @@ uses
   CConsultaCEP.EventsAndEnums;
 
 {$R *.dfm}
+
+procedure TfrmPrincipal.AdicionarCEPNaListaDeBusca( ACep : string );
+begin
+  FStringCEPSBusca.Add( ACEP.Replace('-', '').QuotedString );
+end;
 
 procedure TfrmPrincipal.BitBtn1Click(Sender: TObject);
 begin
@@ -173,7 +179,7 @@ begin
     .UF( Endereco.UF )
     .Cadastrar;
 
-  FStringCEPSBusca.Add( Endereco.CEP.Replace('-', '').QuotedString );
+  AdicionarCEPNaListaDeBusca( Endereco.CEP );
 end;
 
 end.
