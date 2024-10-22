@@ -29,31 +29,30 @@ Estrutura do Projeto (Componente)</br>
 <b>Como Utilizar o Componente</b>
     Configuração Inicial: Adicione o componente ao seu projeto, configure o formato de retorno desejado (JSON ou XML), e forneça eventos para capturar o sucesso ou erro da consulta.</br>
 ```sh
-procedure TForm7.BitBtn1Click(Sender: TObject);</br>
-var</br>
-  ConsultaCEP: TSysConsultaCEP;</br>
-begin</br>
-  ConsultaCEP := TSysConsultaCEP.Create(nil);</br>
-  try</br>
-    ConsultaCEP.RetornoTipo := JSON;  // ou XML</br>
-    ConsultaCEP.OnResult := OnResult;</br>
-    ConsultaCEP.OnError  := OnErro;</br>
-    ConsultaCEP.ConsultarPorCEP('97577532');</br>
-  finally</br>
-    ConsultaCEP.Free;</br>
-  end;</br>
-end;</br>
-</br>
-procedure TForm7.OnErro(Sender: TObject; const ErroMsg: string);</br>
-begin</br>
-  raise Exception.Create(ErroMsg);</br>
-end;</br>
-</br>
-procedure TForm7.OnResult(const Endereco: TEndereco);</br>
-begin</br>
-  ShowMessage('Endereço: ' + Endereco.Logradouro);</br>
-end;</br></i>
-</br>
+procedure TForm7.BitBtn1Click(Sender: TObject);
+var
+  ConsultaCEP: TSysConsultaCEP;
+begin
+  ConsultaCEP := TSysConsultaCEP.Create(nil);
+  try
+    ConsultaCEP.RetornoTipo := JSON;  // ou XML
+    ConsultaCEP.OnResult := OnResult;
+    ConsultaCEP.OnError  := OnErro;
+    ConsultaCEP.ConsultarPorCEP('97577532');
+  finally
+    ConsultaCEP.Free;
+  end;
+end;
+
+procedure TForm7.OnErro(Sender: TObject; const ErroMsg: string);
+begin
+  raise Exception.Create(ErroMsg);
+end;
+
+procedure TForm7.OnResult(const Endereco: TEndereco);
+begin
+  ShowMessage('Endereço: ' + Endereco.Logradouro);
+end;
 ```
 
 <b>2. Aplicação de Exemplo:</b><br>
@@ -71,23 +70,23 @@ Executar os Testes</br>
 Exemplo de Teste Unitário para JSON</br>
 </br>
 ```sh
-<i>procedure TMyTestObject.TestConsultaJSONPorCEP;</br>
-begin</br>
-  SysConsultaCEP1.RetornoTipo := JSON;</br>
-  SysConsultaCEP1.OnError := OnErro;</br>
-  SysConsultaCEP1.OnResult := OnResultTestJSON;</br>
-  SysConsultaCEP1.ConsultarPorCEP('97577532');</br>
-end;</br>
-</br>
-procedure TMyTestObject.TestConsultaJSONPorEndereco;</br>
-begin</br>
-  SysConsultaCEP1.RetornoTipo := JSON;</br>
-  SysConsultaCEP1.OnError := OnErro;</br>
-  SysConsultaCEP1.OnResult := OnResultTestJSONEndereco;</br>
-  SysConsultaCEP1.ConsultarPorEndereco('RS', 'SANTANA DO LIVRAMENTO', 'LUIZ PEDRO IRIGOIEN');</br>
-end;</br></i>
+procedure TMyTestObject.TestConsultaJSONPorCEP;
+begin
+  SysConsultaCEP1.RetornoTipo := JSON;
+  SysConsultaCEP1.OnError := OnErro;
+  SysConsultaCEP1.OnResult := OnResultTestJSON;
+  SysConsultaCEP1.ConsultarPorCEP('97577532');
+end;
+
+procedure TMyTestObject.TestConsultaJSONPorEndereco;
+begin
+  SysConsultaCEP1.RetornoTipo := JSON;
+  SysConsultaCEP1.OnError := OnErro;
+  SysConsultaCEP1.OnResult := OnResultTestJSONEndereco;
+  SysConsultaCEP1.ConsultarPorEndereco('RS', 'SANTANA DO LIVRAMENTO', 'LUIZ PEDRO IRIGOIEN');
+end;
 ```
-</br>
-##Como Executar o Projeto</b></br>
+
+##Como Executar o Projeto
 
 Certifique-se de que as dependências estejam configuradas no seu ambiente Delphi, e execute a aplicação prjTestes.exe.</br>
