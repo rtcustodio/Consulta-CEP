@@ -23,7 +23,7 @@ Estrutura do Projeto (Componente)</br>
     • Observer Pattern: Utilizado para notificar o chamador através de eventos (OnResult, OnError) sobre o resultado ou falha das consultas.</br>
     • Factory Pattern:  Foi utilizada uma fábrica para criar as instâncias das estratégias.</br>
 </br>
-<b>Dependências</b>
+<b>Dependências</b></br>
     • REST.Json: Para manipulação de JSON.</br>
     • MSXML: Para manipulação de XML. </br>
     • DUnitX: Utilizado para testes unitários e de integração.</br>
