@@ -1,5 +1,7 @@
 <h1>Projeto: Componente de Consulta de CEP</h1>
 
+
+![Badge](https://img.shields.io/static/v1?label=delphi&message=language&color=blue&style=for-the-badge&logo=delphi)</br>
 <b>Descrição</b></br>
 
 Este projeto é um componente Delphi para realizar consultas de CEP via APIs, com suporte a diferentes formatos de retorno, como JSON e XML. Ele permite realizar buscas por CEP ou endereço e retorna os dados de endereço completos, além de eventos para lidar com o sucesso ou falha da consulta.</br>
@@ -55,7 +57,7 @@ begin
 end;
 ```
 
-<b>2. Aplicação de Exemplo:</b><br>
+<b>Aplicação de Exemplo:</b><br>
 - Na pasta App, você encontrará uma aplicação de exemplo que demonstra como utilizar o componente. Esta aplicação utiliza o SQLite como banco de dados e inclui um arquivo config.ini para definir o local da base de dados. </br>
 <b>*** Configurar o local do banco de dados no config.ini***</b><br>
 - A aplicação grava todas as consultas realizadas na base. Caso um registro já exista, ela pergunta se você deseja atualizar os dados. </br>
@@ -69,6 +71,7 @@ Executar os Testes</br>
     2. Execute os testes diretamente no DUnitX.</br>
 Exemplo de Teste Unitário para JSON</br>
 </br>
+
 ```sh
 procedure TMyTestObject.TestConsultaJSONPorCEP;
 begin
