@@ -28,7 +28,8 @@ Estrutura do Projeto (Componente)</br>
     </br>
 <b>Como Utilizar o Componente</b>
     Configuração Inicial: Adicione o componente ao seu projeto, configure o formato de retorno desejado (JSON ou XML), e forneça eventos para capturar o sucesso ou erro da consulta.</br>
-<i>procedure TForm7.BitBtn1Click(Sender: TObject);</br>
+```sh
+procedure TForm7.BitBtn1Click(Sender: TObject);</br>
 var</br>
   ConsultaCEP: TSysConsultaCEP;</br>
 begin</br>
@@ -53,6 +54,8 @@ begin</br>
   ShowMessage('Endereço: ' + Endereco.Logradouro);</br>
 end;</br></i>
 </br>
+```
+
 <b>2. Aplicação de Exemplo:</b><br>
 - Na pasta App, você encontrará uma aplicação de exemplo que demonstra como utilizar o componente. Esta aplicação utiliza o SQLite como banco de dados e inclui um arquivo config.ini para definir o local da base de dados. </br>
 <b>*** Configurar o local do banco de dados no config.ini***</b><br>
@@ -67,6 +70,7 @@ Executar os Testes</br>
     2. Execute os testes diretamente no DUnitX.</br>
 Exemplo de Teste Unitário para JSON</br>
 </br>
+```sh
 <i>procedure TMyTestObject.TestConsultaJSONPorCEP;</br>
 begin</br>
   SysConsultaCEP1.RetornoTipo := JSON;</br>
@@ -82,6 +86,8 @@ begin</br>
   SysConsultaCEP1.OnResult := OnResultTestJSONEndereco;</br>
   SysConsultaCEP1.ConsultarPorEndereco('RS', 'SANTANA DO LIVRAMENTO', 'LUIZ PEDRO IRIGOIEN');</br>
 end;</br></i>
+```
 </br>
-<b>Como Executar o Projeto</b></br>
+##Como Executar o Projeto</b></br>
+
 Certifique-se de que as dependências estejam configuradas no seu ambiente Delphi, e execute a aplicação prjTestes.exe.</br>
