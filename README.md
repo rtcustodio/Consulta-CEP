@@ -27,7 +27,7 @@ Estrutura do Projeto (Componente)</br>
     • DUnitX: Utilizado para testes unitários e de integração.</br>
     </br>
 <b>Como Utilizar o Componente</b>
-    1. Configuração Inicial: Adicione o componente ao seu projeto, configure o formato de retorno desejado (JSON ou XML), e forneça eventos para capturar o sucesso ou erro da consulta.</br>
+    Configuração Inicial: Adicione o componente ao seu projeto, configure o formato de retorno desejado (JSON ou XML), e forneça eventos para capturar o sucesso ou erro da consulta.</br>
 <i>procedure TForm7.BitBtn1Click(Sender: TObject);</br>
 var</br>
   ConsultaCEP: TSysConsultaCEP;</br>
