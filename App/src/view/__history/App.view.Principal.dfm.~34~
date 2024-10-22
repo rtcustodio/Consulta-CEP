@@ -11,7 +11,23 @@ object frmPrincipal: TfrmPrincipal
   Font.Name = 'Segoe UI'
   Font.Style = []
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   TextHeight = 21
+  object Label1: TLabel
+    Left = 0
+    Top = 185
+    Width = 1019
+    Height = 25
+    Align = alTop
+    Caption = 'Listagem dos endere'#231'os'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -19
+    Font.Name = 'Segoe UI'
+    Font.Style = [fsBold]
+    ParentFont = False
+    ExplicitWidth = 212
+  end
   object Panel1: TPanel
     Left = 0
     Top = 0
@@ -33,7 +49,6 @@ object frmPrincipal: TfrmPrincipal
         'Por Endere'#231'o')
       TabOrder = 0
       OnClick = rdgTipoPesquisaClick
-      ExplicitHeight = 105
     end
     object rdgTipoRetorno: TRadioGroup
       Left = 0
@@ -48,14 +63,13 @@ object frmPrincipal: TfrmPrincipal
         'XML')
       TabOrder = 1
       OnClick = rdgTipoRetornoClick
-      ExplicitHeight = 105
     end
   end
   object DBGrid1: TDBGrid
     Left = 0
-    Top = 185
+    Top = 210
     Width = 1019
-    Height = 364
+    Height = 304
     Align = alClient
     DataSource = dsConsultas
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
@@ -65,6 +79,50 @@ object frmPrincipal: TfrmPrincipal
     TitleFont.Height = -16
     TitleFont.Name = 'Segoe UI'
     TitleFont.Style = []
+    OnDblClick = DBGrid1DblClick
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'cep'
+        Title.Caption = 'CEP'
+        Width = 100
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'logradouro'
+        Title.Caption = 'Logradouro'
+        Width = 250
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'complemento'
+        Title.Caption = 'Complemento'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'bairro'
+        Title.Caption = 'Bairro'
+        Width = 200
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'localidade'
+        Title.Caption = 'Cidade'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'uf'
+        Title.Caption = 'UF'
+        Width = 60
+        Visible = True
+      end>
   end
   object Panel2: TPanel
     Left = 0
@@ -74,11 +132,10 @@ object frmPrincipal: TfrmPrincipal
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitTop = 105
     object grpPesquisaCEP: TGroupBox
       Left = 0
       Top = 0
-      Width = 200
+      Width = 225
       Height = 104
       Align = alLeft
       Caption = 'Pesquisar CEP'
@@ -88,6 +145,7 @@ object frmPrincipal: TfrmPrincipal
         Top = 49
         Width = 121
         Height = 29
+        CharCase = ecUpperCase
         EditLabel.Width = 27
         EditLabel.Height = 21
         EditLabel.Caption = 'CEP'
@@ -95,11 +153,26 @@ object frmPrincipal: TfrmPrincipal
         TabOrder = 0
         Text = ''
       end
+      object BitBtn1: TBitBtn
+        AlignWithMargins = True
+        Left = 149
+        Top = 48
+        Width = 71
+        Height = 29
+        Margins.Top = 25
+        Margins.Bottom = 25
+        Align = alRight
+        Caption = 'Pesquisar'
+        TabOrder = 1
+        OnClick = BitBtn1Click
+        ExplicitLeft = 148
+        ExplicitTop = 47
+      end
     end
     object grpPesquisaEndereco: TGroupBox
-      Left = 200
+      Left = 225
       Top = 0
-      Width = 488
+      Width = 576
       Height = 104
       Align = alLeft
       Caption = 'Pesquisar por Endere'#231'o'
@@ -141,29 +214,78 @@ object frmPrincipal: TfrmPrincipal
         TabOrder = 2
         Text = ''
       end
+      object BitBtn3: TBitBtn
+        AlignWithMargins = True
+        Left = 479
+        Top = 48
+        Width = 92
+        Height = 29
+        Margins.Top = 25
+        Margins.Bottom = 25
+        Align = alRight
+        Caption = 'Pesquisar'
+        TabOrder = 3
+        OnClick = BitBtn3Click
+        ExplicitTop = 47
+      end
     end
-    object BitBtn1: TBitBtn
+  end
+  object Panel3: TPanel
+    Left = 0
+    Top = 514
+    Width = 1019
+    Height = 35
+    Align = alBottom
+    BevelOuter = bvNone
+    TabOrder = 3
+    object lblQuantidadeListada: TLabel
       AlignWithMargins = True
-      Left = 864
-      Top = 25
-      Width = 152
-      Height = 54
-      Margins.Top = 25
-      Margins.Bottom = 25
+      Left = 194
+      Top = 3
+      Width = 9
+      Height = 29
+      Align = alLeft
+      Caption = '0'
+      Layout = tlCenter
+      ExplicitHeight = 21
+    end
+    object Label2: TLabel
+      AlignWithMargins = True
+      Left = 3
+      Top = 3
+      Width = 185
+      Height = 29
+      Align = alLeft
+      Caption = 'Quantidade listando:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+      Layout = tlCenter
+      ExplicitHeight = 25
+    end
+    object BitBtn2: TBitBtn
+      AlignWithMargins = True
+      Left = 768
+      Top = 3
+      Width = 248
+      Height = 29
       Align = alRight
-      Caption = 'Pesquisar'
-      TabOrder = 2
-      OnClick = BitBtn1Click
+      Caption = 'Listar todos CEPs cadastrados'
+      TabOrder = 0
+      OnClick = BitBtn2Click
     end
   end
   object SysConsultaCEP1: TSysConsultaCEP
-    RetornoTipo = XML
     OnResult = SysConsultaCEP1Result
     OnError = SysConsultaCEP1Error
     Left = 744
     Top = 16
   end
   object dsConsultas: TDataSource
+    OnDataChange = dsConsultasDataChange
     Left = 480
     Top = 392
   end

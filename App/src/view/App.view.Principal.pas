@@ -15,21 +15,20 @@ type
     rdgTipoPesquisa: TRadioGroup;
     DBGrid1: TDBGrid;
     rdgTipoRetorno: TRadioGroup;
-    Panel2: TPanel;
-    grpPesquisaCEP: TGroupBox;
-    edtCEP: TLabeledEdit;
-    grpPesquisaEndereco: TGroupBox;
-    edtUF: TLabeledEdit;
-    edtCidade: TLabeledEdit;
-    edtLogradouro: TLabeledEdit;
     dsConsultas: TDataSource;
     Label1: TLabel;
     Panel3: TPanel;
     lblQuantidadeListada: TLabel;
     Label2: TLabel;
     BitBtn2: TBitBtn;
-    BitBtn1: TBitBtn;
+    grpPesquisaEndereco: TGroupBox;
+    edtUF: TLabeledEdit;
+    edtCidade: TLabeledEdit;
+    edtLogradouro: TLabeledEdit;
     BitBtn3: TBitBtn;
+    grpPesquisaCEP: TGroupBox;
+    edtCEP: TLabeledEdit;
+    BitBtn1: TBitBtn;
     procedure BitBtn1Click(Sender: TObject);
     procedure SysConsultaCEP1Result(const Endereco: TEndereco);
     procedure rdgTipoPesquisaClick(Sender: TObject);
@@ -111,7 +110,7 @@ begin
   FCEP.FiltrarPorCEP(edtCEP.Text);
   if not dsConsultas.DataSet.IsEmpty then
   begin
-    var Resp := Application.MessageBox('CEP pesquisado já existe na base de dados. Deseja atualizar os dados em uma nova pesquisa?', 'Confirma', MB_YESNO + MB_ICONQUESTION);
+    var Resp := Application.MessageBox(PWideChar('O CEP '+edtCEP.Text+'  já existe na base de dados. '+sLineBreak+'Deseja pesquisar novamente e atualizar os dados?'), 'Confirma', MB_YESNO + MB_ICONQUESTION);
     if Resp = mrNo then Exit;
   end;
 
@@ -125,7 +124,7 @@ begin
   FCEP.FiltrarPorEndereco(RemoveAcentos( edtUF.Text ), RemoveAcentos( edtCidade.Text ), RemoveAcentos( edtLogradouro.Text ));
   if not dsConsultas.DataSet.IsEmpty then
   begin
-    var Resp := Application.MessageBox('Endereço pesquisado já existe na base de dados. Deseja atualizar os dados em uma nova pesquisa?', 'Confirma', MB_YESNO + MB_ICONQUESTION);
+    var Resp := Application.MessageBox(PWideChar('O Endereço '+edtLogradouro.Text+' em '+edtCidade.Text+'/'+edtUF.text+' já existe na base de dados. '+sLineBreak+'Deseja pesquisar novamente e atualizar os dados?'), 'Confirma', MB_YESNO + MB_ICONQUESTION);
     if Resp = mrNo then Exit;
   end;
 

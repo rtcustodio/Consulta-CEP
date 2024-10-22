@@ -22,13 +22,14 @@ type
     edtUF: TLabeledEdit;
     edtCidade: TLabeledEdit;
     edtLogradouro: TLabeledEdit;
-    BitBtn1: TBitBtn;
     dsConsultas: TDataSource;
     Label1: TLabel;
     Panel3: TPanel;
     lblQuantidadeListada: TLabel;
     Label2: TLabel;
     BitBtn2: TBitBtn;
+    BitBtn1: TBitBtn;
+    BitBtn3: TBitBtn;
     procedure BitBtn1Click(Sender: TObject);
     procedure SysConsultaCEP1Result(const Endereco: TEndereco);
     procedure rdgTipoPesquisaClick(Sender: TObject);
@@ -38,11 +39,14 @@ type
     procedure dsConsultasDataChange(Sender: TObject; Field: TField);
     procedure FormDestroy(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
   private
     FCEP : IDAO_CEP;
     FStringCEPSBusca : TStringList;
     procedure PesquisarPorCEP;
     procedure PesquisarPorEndereco;
+    procedure AdicionarCEPNaListaDeBusca( ACep : string );
   public
     { Public declarations }
   end;
@@ -57,17 +61,29 @@ uses
 
 {$R *.dfm}
 
+procedure TfrmPrincipal.AdicionarCEPNaListaDeBusca( ACep : string );
+begin
+  FStringCEPSBusca.Add( ACEP.Replace('-', '').QuotedString );
+end;
+
 procedure TfrmPrincipal.BitBtn1Click(Sender: TObject);
 begin
-  case rdgTipoPesquisa.ItemIndex of
-   0: PesquisarPorCEP;
-   1: PesquisarPorEndereco;
-  end;
+   PesquisarPorCEP;
 end;
 
 procedure TfrmPrincipal.BitBtn2Click(Sender: TObject);
 begin
   FCEP.Open;
+end;
+
+procedure TfrmPrincipal.BitBtn3Click(Sender: TObject);
+begin
+  PesquisarPorEndereco;
+end;
+
+procedure TfrmPrincipal.DBGrid1DblClick(Sender: TObject);
+begin
+  edtCEP.Text := dsConsultas.DataSet.FieldByName('cep').AsString;
 end;
 
 procedure TfrmPrincipal.dsConsultasDataChange(Sender: TObject; Field: TField);
@@ -79,10 +95,7 @@ procedure TfrmPrincipal.FormCreate(Sender: TObject);
 begin
   FStringCEPSBusca := TStringList.Create;
   FStringCEPSBusca.Delimiter := ',';
-  case rdgTipoRetorno.ItemIndex of
-    0: SysConsultaCEP1.RetornoTipo := JSON;
-    1: SysConsultaCEP1.RetornoTipo := XML;
-  end;
+  SysConsultaCEP1.RetornoTipo := JSON;
 
   FCEP := TDAO_CEP.New.DataSource(dsConsultas).Open;
 end;
@@ -98,7 +111,7 @@ begin
   FCEP.FiltrarPorCEP(edtCEP.Text);
   if not dsConsultas.DataSet.IsEmpty then
   begin
-    var Resp := Application.MessageBox('CEP pesquisado já existe na base de dados. Deseja atualizar os dados em uma nova pesquisa?', 'Confirma', MB_YESNO + MB_ICONQUESTION);
+    var Resp := Application.MessageBox(PWideChar('O CEP '+edtCEP.Text+'  já existe na base de dados. '+sLineBreak+'Deseja pesquisar novamente e atualizar os dados?'), 'Confirma', MB_YESNO + MB_ICONQUESTION);
     if Resp = mrNo then Exit;
   end;
 
@@ -112,7 +125,7 @@ begin
   FCEP.FiltrarPorEndereco(RemoveAcentos( edtUF.Text ), RemoveAcentos( edtCidade.Text ), RemoveAcentos( edtLogradouro.Text ));
   if not dsConsultas.DataSet.IsEmpty then
   begin
-    var Resp := Application.MessageBox('Endereço pesquisado já existe na base de dados. Deseja atualizar os dados em uma nova pesquisa?', 'Confirma', MB_YESNO + MB_ICONQUESTION);
+    var Resp := Application.MessageBox(PWideChar('O Endereço '+edtLogradouro.Text+' em '+edtCidade.Text+'/'+edtUF.text+' já existe na base de dados. '+sLineBreak+'Deseja pesquisar novamente e atualizar os dados?'), 'Confirma', MB_YESNO + MB_ICONQUESTION);
     if Resp = mrNo then Exit;
   end;
 
@@ -152,6 +165,7 @@ end;
 procedure TfrmPrincipal.SysConsultaCEP1Error(Sender: TObject; const ErrorMsg: string);
 begin
   Application.MessageBox(PWideChar(ErrorMsg), 'Atenção', MB_ICONWARNING);
+  Abort;
 end;
 
 procedure TfrmPrincipal.SysConsultaCEP1Result(const Endereco: TEndereco);
@@ -165,7 +179,7 @@ begin
     .UF( Endereco.UF )
     .Cadastrar;
 
-  FStringCEPSBusca.Add( Endereco.CEP.Replace('-', '') );
+  AdicionarCEPNaListaDeBusca( Endereco.CEP );
 end;
 
 end.
