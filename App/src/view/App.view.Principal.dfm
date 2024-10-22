@@ -135,7 +135,7 @@ object frmPrincipal: TfrmPrincipal
     object grpPesquisaCEP: TGroupBox
       Left = 0
       Top = 0
-      Width = 200
+      Width = 225
       Height = 104
       Align = alLeft
       Caption = 'Pesquisar CEP'
@@ -153,11 +153,26 @@ object frmPrincipal: TfrmPrincipal
         TabOrder = 0
         Text = ''
       end
+      object BitBtn1: TBitBtn
+        AlignWithMargins = True
+        Left = 149
+        Top = 48
+        Width = 71
+        Height = 29
+        Margins.Top = 25
+        Margins.Bottom = 25
+        Align = alRight
+        Caption = 'Pesquisar'
+        TabOrder = 1
+        OnClick = BitBtn1Click
+        ExplicitLeft = 148
+        ExplicitTop = 47
+      end
     end
     object grpPesquisaEndereco: TGroupBox
-      Left = 200
+      Left = 225
       Top = 0
-      Width = 488
+      Width = 576
       Height = 104
       Align = alLeft
       Caption = 'Pesquisar por Endere'#231'o'
@@ -199,19 +214,20 @@ object frmPrincipal: TfrmPrincipal
         TabOrder = 2
         Text = ''
       end
-    end
-    object BitBtn1: TBitBtn
-      AlignWithMargins = True
-      Left = 864
-      Top = 25
-      Width = 152
-      Height = 54
-      Margins.Top = 25
-      Margins.Bottom = 25
-      Align = alRight
-      Caption = 'Pesquisar'
-      TabOrder = 2
-      OnClick = BitBtn1Click
+      object BitBtn3: TBitBtn
+        AlignWithMargins = True
+        Left = 479
+        Top = 48
+        Width = 92
+        Height = 29
+        Margins.Top = 25
+        Margins.Bottom = 25
+        Align = alRight
+        Caption = 'Pesquisar'
+        TabOrder = 3
+        OnClick = BitBtn3Click
+        ExplicitTop = 47
+      end
     end
   end
   object Panel3: TPanel

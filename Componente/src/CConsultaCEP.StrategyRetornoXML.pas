@@ -4,12 +4,11 @@ interface
 
 uses
   CConsultaCEP.Intf,
-  Xml.XMLIntf,
-  Xml.XMLDoc,
   CConsultaCEP.EventsAndEnums,
   System.Variants,
   CConsultaCEP.Classes,
-  MSXML;
+  MSXML,
+  Xml.XMLDoc, Xml.XMLIntf, Xml.Win.msxmldom;
 
 type
   TXMLRetornoStrategy = class(TInterfacedObject, IRetornoStrategy)
@@ -35,7 +34,8 @@ var
   Erro : boolean;
 begin
   XMLDocument := LoadXMLData(AResponse);
-//  XMLDocument.Encoding := 'UTF-8';
+  XMLDocument.Encoding := 'UTF-8';
+  //XMLDocument.DOMVendor := GetDOMVendor('MSXML');
   RootNode := XMLDocument.DocumentElement;
 
   if not Assigned(RootNode) then

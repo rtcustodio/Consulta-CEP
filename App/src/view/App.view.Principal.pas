@@ -22,13 +22,14 @@ type
     edtUF: TLabeledEdit;
     edtCidade: TLabeledEdit;
     edtLogradouro: TLabeledEdit;
-    BitBtn1: TBitBtn;
     dsConsultas: TDataSource;
     Label1: TLabel;
     Panel3: TPanel;
     lblQuantidadeListada: TLabel;
     Label2: TLabel;
     BitBtn2: TBitBtn;
+    BitBtn1: TBitBtn;
+    BitBtn3: TBitBtn;
     procedure BitBtn1Click(Sender: TObject);
     procedure SysConsultaCEP1Result(const Endereco: TEndereco);
     procedure rdgTipoPesquisaClick(Sender: TObject);
@@ -39,6 +40,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
   private
     FCEP : IDAO_CEP;
     FStringCEPSBusca : TStringList;
@@ -60,15 +62,17 @@ uses
 
 procedure TfrmPrincipal.BitBtn1Click(Sender: TObject);
 begin
-  case rdgTipoPesquisa.ItemIndex of
-   0: PesquisarPorCEP;
-   1: PesquisarPorEndereco;
-  end;
+   PesquisarPorCEP;
 end;
 
 procedure TfrmPrincipal.BitBtn2Click(Sender: TObject);
 begin
   FCEP.Open;
+end;
+
+procedure TfrmPrincipal.BitBtn3Click(Sender: TObject);
+begin
+  PesquisarPorEndereco;
 end;
 
 procedure TfrmPrincipal.DBGrid1DblClick(Sender: TObject);
@@ -85,10 +89,7 @@ procedure TfrmPrincipal.FormCreate(Sender: TObject);
 begin
   FStringCEPSBusca := TStringList.Create;
   FStringCEPSBusca.Delimiter := ',';
-  case rdgTipoRetorno.ItemIndex of
-    0: SysConsultaCEP1.RetornoTipo := JSON;
-    1: SysConsultaCEP1.RetornoTipo := XML;
-  end;
+  SysConsultaCEP1.RetornoTipo := JSON;
 
   FCEP := TDAO_CEP.New.DataSource(dsConsultas).Open;
 end;
@@ -172,7 +173,7 @@ begin
     .UF( Endereco.UF )
     .Cadastrar;
 
-  FStringCEPSBusca.Add( Endereco.CEP.Replace('-', '') );
+  FStringCEPSBusca.Add( Endereco.CEP.Replace('-', '').QuotedString );
 end;
 
 end.
