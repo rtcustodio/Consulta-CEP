@@ -4,7 +4,7 @@
 ![Badge](https://img.shields.io/static/v1?label=delphi&message=language&color=blue&style=for-the-badge&logo=delphi)</br>
 <b>Descrição</b></br>
 
-Este projeto é um componente Delphi para realizar consultas de CEP via APIs, com suporte a diferentes formatos de retorno, como JSON e XML. Ele permite realizar buscas por CEP ou endereço e retorna os dados de endereço completos, além de eventos para lidar com o sucesso ou falha da consulta.</br>
+Este projeto é um componente Delphi para realizar consultas de CEP via API da ViaCEP, com suporte a diferentes formatos de retorno, como JSON e XML. Ele permite realizar buscas por CEP ou endereço e retorna os dados de endereço completos, além de eventos para lidar com o sucesso ou falha da consulta.</br>
 Estrutura do Projeto (Componente)</br>
 </br>
 /src</br>
@@ -27,6 +27,7 @@ Estrutura do Projeto (Componente)</br>
     • REST.Json: Para manipulação de JSON.</br>
     • MSXML: Para manipulação de XML. </br>
     • DUnitX: Utilizado para testes unitários e de integração.</br>
+    • OpenSSL: Utilizado para conexão segura da API.</br>
     </br>
 <b>Como Utilizar o Componente</b>
     Configuração Inicial: Adicione o componente ao seu projeto, configure o formato de retorno desejado (JSON ou XML), e forneça eventos para capturar o sucesso ou erro da consulta.</br>
