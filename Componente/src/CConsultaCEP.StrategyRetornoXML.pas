@@ -51,7 +51,7 @@ begin
         if EnderecosNode.ChildNodes.Count = 0 then
         begin
           if Assigned(AOnError) then
-            AOnError(Self, 'Nenhum endereÁo localizado');
+            AOnError(Self, 'Nenhum endere√ßo localizado');
           Abort;
         end;
 
@@ -81,7 +81,7 @@ begin
 
         if Erro and Assigned(AOnError) then
         begin
-          AOnError(Self, 'O CEP informado n„o existe.');
+        AOnError(Self, 'Erro ao processar o retorno XML: ' + E.Message)
           Abort;
         end;
 
@@ -99,7 +99,7 @@ begin
       end;
     end
     else
-      raise Exception.Create('Formato de resposta XML n„o suportado.');
+      raise Exception.Create('Formato de resposta XML n√£o suportado.');
   except
     on E: Exception do
     begin
