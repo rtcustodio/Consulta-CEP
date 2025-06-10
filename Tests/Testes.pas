@@ -14,7 +14,9 @@ type
   TMyTestObject = class
   private
     SysConsultaCEP1: TSysConsultaCEP;
+    FErroMsg: string;
     procedure OnErro( Sender : TObject; const ErroMsg : string );
+    procedure OnErroSalvar(Sender : TObject; const ErroMsg : string );
     procedure OnResultTestJSON(const Endereco : TEndereco);
     procedure OnResultTestJSONEndereco(const Endereco : TEndereco);
     procedure OnResultTestXML(const Endereco : TEndereco);
@@ -32,6 +34,8 @@ type
     procedure TestConsultaXMLPorCEP;
     [Test]
     procedure TestConsultaXMLPorEndereco;
+    [Test]
+    procedure TestCEPInvalido;
   end;
 
 implementation
@@ -39,6 +43,11 @@ implementation
 procedure TMyTestObject.OnErro(Sender: TObject; const ErroMsg: string);
 begin
   raise Exception.Create(ErroMsg);
+end;
+
+procedure TMyTestObject.OnErroSalvar(Sender: TObject; const ErroMsg: string);
+begin
+  FErroMsg := ErroMsg;
 end;
 
 procedure TMyTestObject.OnResultTestJSON(const Endereco: TEndereco);
@@ -126,6 +135,15 @@ begin
   SysConsultaCEP1.OnError := OnErro;
   SysConsultaCEP1.OnResult := OnResultTestXMLEndereco;
   SysConsultaCEP1.ConsultarPorEndereco('RS', 'SANTANA DO LIVRAMENTO', 'LUIZ PEDRO IRIGOIEN');
+end;
+
+procedure TMyTestObject.TestCEPInvalido;
+begin
+  FErroMsg := '';
+  SysConsultaCEP1.RetornoTipo := JSON;
+  SysConsultaCEP1.OnError := OnErroSalvar;
+  SysConsultaCEP1.ConsultarPorCEP('123');
+  Assert.AreEqual('CEP inválido. O CEP deve ter 8 dígitos.', FErroMsg);
 end;
 
 initialization
